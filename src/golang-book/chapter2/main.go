@@ -1,13 +1,51 @@
 package main
 import "fmt"
 
-func main()  {
-	var w int=2
-	fmt.Println(string(w))
-	a:=fahrenheitToCelsius(41)
-	fmt.Println(a)
-	//dividibleThrew3()
 
+func main() {
+	var x int
+	var Ptr *int
+	Ptr= &x
+	*Ptr=1
+	fmt.Println(Ptr)
+	fmt.Println(&x)
+	fmt.Println(x)
+}
+
+func zero(xPtr *int) {
+	*xPtr = 0
+	fmt.Println(xPtr)
+}
+func noPointer(x int) {
+	fmt.Println(&x,"id")
+}
+func catch(){
+	fmt.Println(recover())
+}
+func giveP(w string) (p string){
+	p = "i am returned automatically"+w
+	return
+}
+
+func findLowestNumber()int {
+	x := []int{
+		48, 86, 68,
+		57, 82, 63, 70,
+		37, 34, 83, 27,
+		19, 9, 17,
+	}
+
+	if (len(x) >2) {
+		var safe int
+		safe = x[0]
+		for _, value := range x {
+			if (safe < value) {
+				safe = value
+			}
+		}
+		return safe
+	}
+	return 0
 }
 
 func fahrenheitToCelsius( grad int) int{
