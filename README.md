@@ -24,6 +24,7 @@ Always Typecast if using different types!
     a := "boi"
 Create multiple Variables at once
    
+    var rx1, ry1 float64 = 0, 10 //xy1=0.0  ry1=10.0
     var(                //multiple vars at once
         a="hello world" //automatic typecast possible
         b=-12           //multiple types possible too
@@ -40,16 +41,15 @@ Create multiple Variables at once
     Type(value)
     string(65)
 #####Danger on Types
-You cannot randomly fuse/add different types:
-
-    These do not combine:
-    float ! int ! string ! bol    
+You cannot randomly fuse/add different types, always Typecast
+  
 ##Control Structures
 For Loop
 
     i:=1
-    for i<=12 {i++}
-    for i:=1; i<=10; i++ {}
+    for i<=12 {i++}  //uses previous i
+    for i:=1; i<=10; i++ {} //new intern i
+    for i=1; i<=10; i++ {} //uses previous i 
     
 If Case
     
@@ -58,7 +58,7 @@ If Case
         }else if true||false {}
 Switch
 
-    switch i {
+    switch i { 
     case 0: fmt.Println("Zero")
     case 1: fmt.Println("One")
 ##Arrays
@@ -67,18 +67,18 @@ Switch
     y := [5]float64{ 98, 93, 77, 82, 83, } // the , after 83 is for easy adding other values
     y[3}=10          // [98 93 77 10 83] 
     len(x)          
-Example, special for loop
+Example, special For-loop 1
 
     for i, value := range x {}
-    Goes threw it, value is x[i]; i is the iterator | you need to use i
-Example, special for loop
+    Goes threw the array x, value is x[i]; i is the iterator | you need to use i
+Example, special For-loop 2
 
     for _, value := range x {}
-    Goes threw it, value is x[i]; the iterator itself cant be used  
+    Goes threw the array x, value is x[i]; the iterator itself cant be used  
 #####Slices
-Arrays wihtout length bounding, they are based on a finite array
+Arrays wihtout length bounding, they are based on finite arrays
 
-    var x []float64             //current-slice-length; array-length 0
+    var x []float64             //slize and used array is not set
     y := make([]float64, 5)     //current-slice-length5; array-length 5
     z := make([]float64, 5, 10) //current-slice-length5; array-length 10 
     arr := [5]float64{1,2,3,4,5}
@@ -88,19 +88,18 @@ Slice functions
 
     slice1:= []int{1,2,3}       //{1 2 3}
     slice2:= append(slice1,4,5) //{1 2 3 4 5}
-    take slice and other arguments
+    append uses slices and other arguments
 <span><span>
 
     slice3:= make([]int,2)      //{0 0}
     copy (slice3,slice1)        //slice2 {1 2}
     Copyies 2nd argument in 1st argument, attention if space is limited
 #####Maps
-Maps are a Hash of Values, x is a map of `string` to  `ints`
-"key"] = 10    
-The length is not static
+Maps are a Hash of Values   
+The length of maps is infinite
 
-        var x =make(map[string]int)
-        y := make(map[int]bool)
+        var x =make(map[string]int) //maps Strings to ints
+        y := make(map[int]bool)     //map for ints to booleans
         x["key"]=10
         fmt.Println(x["key"])   //10
         fmt.Println(x["noneExample"]) //returns the zero value (0)
@@ -135,8 +134,12 @@ Test if none
 ##Functions
 General:    
     
-    func (p int, s String) (int, String){
-    return p "12" }
+    func olla(p int, s String) (int, String){
+    return p, "12"
+    }
+    func hello(thisAInt, thisAnotherInt int){
+    fmt.Println(thisAInt, thisAnotherInt)
+    }
 Define a Variable to return
 
     func giveP() (p string){
@@ -222,6 +225,74 @@ Use Pointers in functions:
       zero(&x)
       fmt.Println(x) // x is 0
     }
+##Structs and Interfaces
+###Structs    
+Structs can be used to create a new customized type
+#####Creation
+
+    type Random struct {
+    d int
+    a float64
+    b String
+    }
+    type Circle struct {
+    x, y, r float64 
+    }
+#### Initialization
+You can initialize a struct like any other type, but to enter values is a bit different:
+
+    var c Circle //x=0.0 y=0.0 r =0.0
+    d:= new(Circle) //returns a Pointer
+    e:= Circle{x: 0, y:0, r:5}  
+    f:= Circle{0,0,5}
+####Access the fields
+
+    c.x     //=0
+    c.r     //5
+####Use in Functions
+One thing to remember is that arguments are always copied in Go. If we attempted to modify one of the fields inside of another function, it would not modify the original variable.    
+If you want to modify the value use Pointers, otherwise it will be copied
+
+    c := Circle{0, 0, 5}
+    fmt.Println(circleArea(&c)) //give the function circleArea a Pointer
+<span></span>
+    
+    func circleArea(c *Circle) float64 { //take a Pointer (*Circle)
+      return math.Pi * c.r*c.r  //works with the original Values
+    }
+### Methods
+Methods are functions wich are defined for a special type. So you can only call a method by using a variable of the specified type    
+Example for creating a method
+
+    func (c *Circle) area() float64 { //this is a method by Circle
+      return math.Pi * c.r*c.r
+    }
+You can call the Method by this:
+
+
+    c.area()    //c is an instance of Circle
+    //The Pointer is automatically created by Go
+####Embedded Types
+Using customized types in customized types, this is our inner Type:
+
+    type Person struct {
+    Name string
+    }
+Has Relationship: Android has a Person
+
+    type Android struct {
+      PersonIdentifier Person //call Person by .PersonIdentifier
+      Model string     //cal Person vars .PersonIdentifier.Name
+    }
+    
+Is Relationship: Android is a Person
+
+    type Android struct {
+      Person        //call Person by .Person 
+      Model string  //call Person vars by .Person.Name
+     }              //or directly .Name  since Android is a Person
+Use the "Is Relationship" to create OO Programms
+###Interfaces
 ##fmt
 Read input
 

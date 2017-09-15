@@ -3,15 +3,13 @@ import "fmt"
 
 
 func main() {
-	var x int
-	var Ptr *int
-	Ptr= &x
-	*Ptr=1
-	fmt.Println(Ptr)
-	fmt.Println(&x)
-	fmt.Println(x)
+	var rx1, ry1 float64 = 0, 10
+	fmt.Println(rx1)
+	fmt.Println(ry1)
 }
-
+func olla(p int, s string) (int, string){
+	return p, "12"
+}
 func zero(xPtr *int) {
 	*xPtr = 0
 	fmt.Println(xPtr)
