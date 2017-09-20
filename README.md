@@ -46,6 +46,7 @@ You cannot randomly fuse/add different types, always Typecast
 ##Control Structures
 For Loop
 
+    for{}// never ending for
     i:=1
     for i<=12 {i++}  //uses previous i
     for i:=1; i<=10; i++ {} //new intern i
@@ -261,13 +262,14 @@ If you want to modify the value use Pointers, otherwise it will be copied
       return math.Pi * c.r*c.r  //works with the original Values
     }
 ### Methods
-Methods are functions wich are defined for a special type. So you can only call a method by using a variable of the specified type    
-Example for creating a method
+Methods are functions wich are defined for a special type. So you can only call a method by using a variable of the specified type.
+If Using a Pointer it might be useful to use Methods instead of functions       
+Example for creating a method for the type Circle
 
-    func (c *Circle) area() float64 { //this is a method by Circle
+    func (c *Circle) area() float64 { //this is a method by Circle. func (Calling Object) Methodname(Input) Output
       return math.Pi * c.r*c.r
     }
-You can call the Method by this:
+You can call the Method by this: This will work with the calling Circle
 
 
     c.area()    //c is an instance of Circle
@@ -291,8 +293,18 @@ Is Relationship: Android is a Person
       Person        //call Person by .Person 
       Model string  //call Person vars by .Person.Name
      }              //or directly .Name  since Android is a Person
-Use the "Is Relationship" to create OO Programms
+Use the "Is Relationship" to create OO Programms, calll methhouds my Android.methodOfPerson()
 ###Interfaces
+Create an Interface, interfaces contain a number of methods, not vars (like structs)
+
+    type Shape interface {
+      area() float64        //all objects of shape have to contain the method area()
+    }
+Interfaces can be used like a placeholder for any fitting object, therefore it can even be used as a field 
+
+          type MultiShape struct { 
+            shapes []Shape      //the interface is used as a field in a struct
+          }
 ##fmt
 Read input
 

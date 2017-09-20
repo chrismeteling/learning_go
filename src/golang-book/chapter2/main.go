@@ -1,11 +1,44 @@
 package main
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
+func ponger(c chan string) {
+	for i := 0; ; i++ {
+		c <- "pong"
+	}
+}
+
+func pinger(c chan string) {
+	for i := 0; ; i++ {
+		c <- "ping"
+	}
+}
+
+func printer(c chan string) {
+	for {
+		msg := <- c
+		fmt.Println(msg)
+		time.Sleep(time.Second * 1)
+	}
+}
 
 func main() {
-	var rx1, ry1 float64 = 0, 10
-	fmt.Println(rx1)
-	fmt.Println(ry1)
+	var c chan string = make(chan string)
+	go ponger(c)
+	go pinger(c)
+	go printer(c)
+
+	var input string
+	fmt.Scanln(&input)
+}
+func f(n int) {
+	i:=0
+	for i<=n {
+		fmt.Println(i)
+		i++
+	}
 }
 func olla(p int, s string) (int, string){
 	return p, "12"
